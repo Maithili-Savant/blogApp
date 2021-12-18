@@ -1,0 +1,48 @@
+.card-container{
+    display: flex;
+    width: 30vw !important;
+    height: max-content;
+    border-radius: 0.5rem;
+    box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+
+    justify-content: flex-start;
+    flex-direction: column;
+    /* margin-bottom: 20px; */
+    /* background-color: rgba(255, 235, 205, 0.753); */
+}
+
+.post-title{
+    display: flex;
+    font-size: 24px;
+    padding: 10px 0 15px 0;
+    justify-content: center;
+    
+}
+
+.post-content{
+    font-size: 18px;
+    padding:10px 10px 15px 10px;
+}
+
+.card-toolbox{
+    display: flex;
+    width: inherit;
+    justify-content: flex-end;
+    padding:10px 20px 10px 0;
+}
+
+@media only screen and (max-width: 768px) {
+    .card-container{
+        width: 100vw !important;
+        height:max-content;
+        align-self: center;
+        place-self: center;
+        justify-self: center;
+    }
+
+    .post-content{
+        font-size: 14px;
+        padding:5px 5px 5px 5px;
+    }
+}
