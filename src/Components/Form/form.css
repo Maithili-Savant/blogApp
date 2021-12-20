@@ -1,0 +1,23 @@
+.dialog-container{
+    align-items: center;
+    justify-content: center;
+}
+
+.common-label{
+    margin-bottom: 10px;
+}
+
+.input{
+    font-size: 14px;
+    line-height: 28px;
+    padding: 8px 16px;
+    width: 100%;
+    min-height: 44px;
+    border-radius: 4px;
+}
+
+.form-button{
+    height: 50px !important;
+    width: 150px;
+    text-align: center;
+}

@@ -1,6 +1,6 @@
 .card-container{
     display: flex;
-    width: 30vw !important;
+    width: 25vw !important;
     height: max-content;
     border-radius: 0.5rem;
     box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
@@ -15,9 +15,8 @@
 .post-title{
     display: flex;
     font-size: 24px;
-    padding: 10px 0 15px 0;
-    justify-content: center;
-    
+    padding: 10px 10px 15px 10px;
+    justify-content: center;    
 }
 
 .post-content{
@@ -44,5 +43,10 @@
     .post-content{
         font-size: 14px;
         padding:5px 5px 5px 5px;
+    }
+    
+    .post-title{
+        text-align: center;
+        padding: 10px 0px 15px 10px;
     }
 }

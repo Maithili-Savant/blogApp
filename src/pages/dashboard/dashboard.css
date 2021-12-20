@@ -28,7 +28,7 @@
     justify-content: flex-end;
     align-items: center;
 
-    padding-right: 40px;
+    padding: 10px 10px 0 0;
 }
 
 .button{
@@ -49,11 +49,12 @@
 
 .card-grid-block{
     display: flex;
-    width: 80vw !important;
+    width: 90vw !important;
     height: max-content;
     gap: 2rem;
     background-color: #fff;
     justify-content: center;
+    
 }
 
 @media only screen and (max-width: 768px) {
@@ -67,6 +68,7 @@
 
     .toolbox{
         width: 100vw !important;
+        padding: 10px 0 0 0;
     }
 
     .header{

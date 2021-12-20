@@ -1,0 +1,1 @@
+export const STORE_BLOG_POSTS = `STORE_BLOG_POSTS`;
