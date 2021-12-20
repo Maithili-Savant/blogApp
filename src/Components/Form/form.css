@@ -1,10 +1,20 @@
 .dialog-container{
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.dialog-title{
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 30px;
+}
+
 .common-label{
-    margin-bottom: 10px;
+    display: flex;
+    width: inherit;
+    justify-self: flex-start;
+    margin: 20px 0 20px 0;
 }
 
 .input{
@@ -17,7 +27,7 @@
 }
 
 .form-button{
-    height: 50px !important;
-    width: 150px;
-    text-align: center;
+    height: 50px;
+    position: relative;
+    width: 100%;
 }

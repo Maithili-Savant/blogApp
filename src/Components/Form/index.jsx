@@ -79,7 +79,7 @@ class UserForm extends Component {
                                     <Grid item>
                                         <TextField
                                             className="input"
-                                            placeholder={"Enter Tile"}
+                                            placeholder={"Enter Title"}
                                             variant="outlined"
                                             value={this.state.title}
                                             autoComplete={"off"}
@@ -115,12 +115,14 @@ class UserForm extends Component {
                     <DialogActions className="form-button-container">
                     <Button
                         className="form-button"
+                        variant="outlined"
                         onClick={this.saveFormData}
                     >
                         Post
                     </Button>
                     <Button
                         className="form-button"
+                        variant="outlined"
                         onClick={this.props.closePopup}
                     >
                         Cancel

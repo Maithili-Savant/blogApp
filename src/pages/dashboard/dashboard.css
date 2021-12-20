@@ -36,8 +36,6 @@
     display: flex;
     width: 10rem;
     height: 3rem;
-    background-color: black;
-    color: blanchedalmond;
 }
 
 .card-block{
@@ -45,7 +43,7 @@
     width: 100vw !important;
     height: max-content;
     justify-content: center;
-    margin-top: 20px;
+    margin: 20px 0px 40px 0px;
 }
 
 .card-grid-block{
