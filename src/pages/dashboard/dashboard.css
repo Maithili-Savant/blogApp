@@ -1,13 +1,13 @@
 .container{
     display: flex;
-    width: 100vw !important;
+    width: 100% !important;
+    height: auto;
     flex-direction: column;
     overflow: hidden;
 }
 
 .header{
     display:flex;
-    width: 100vw !important;
     height: 10vh !important;
 
     font-size: 44px;
@@ -15,6 +15,7 @@
 
     justify-content: flex-start;
     align-items: center;
+    padding-left: 30px;
 
     color:blanchedalmond;
     background-color: black;
@@ -22,7 +23,7 @@
 
 .toolbox{
     display:flex;
-    width: 80vw !important;
+    width: 80% !important;
     height: 10vh !important;
     align-self: center;
     justify-content: flex-end;
@@ -73,5 +74,6 @@
 
     .header{
         font-size: 32px;
+        padding-left: 0;
     }
 }

@@ -30,8 +30,11 @@ class UserForm extends Component {
 
     saveFormData = () => {
         let postData = {
+            userId: 1,
+            id: this.props.postDetails.length+1,
             title: this.state.title,
             body: this.state.body,
+            
         };
 
         let reducerData = this.props.postDetails;

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
 import "./dashboard.css";
-import Card from "../../Components/card";
+import Card from "../../Components/Card";
 import { Button, Grid } from "@material-ui/core";
 import{ getPostDetails, setPostDetails, addIsLike } from "../../Store/Actions/actions";
 import UserForm from "../../Components/Form";
@@ -18,13 +18,21 @@ class Dashboard extends Component{
 
     componentDidMount(){
         this.props.getPostDetails(()=>{ this.setState({postDetails: this.props.postDetails})})
-      }
+        // console.log(this.props.postDetails);
+    }
 
     addIsLike = (element) => {
-        let index = this.state.postDetails.indexOf(element);
-        let current = this.state.postDetails;
-        current[index].isLike = true;
+        console.log(element.id);
         
+        let current = this.state.postDetails;
+        
+        if(!current[element.id-1].isLike || current[element.id-1].isLike === false ){
+            current[element.id-1].isLike = true
+        }
+        else{
+            current[element.id-1].isLike = false
+        }
+                                                                                                                        
         this.props.addIsLike(current,
         ()=>{this.setState({
             postDetails: current,

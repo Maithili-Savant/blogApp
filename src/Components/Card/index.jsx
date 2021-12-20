@@ -12,7 +12,7 @@ function Card(props){
                 <div>
                 <IconButton>
                     <Favorite onClick={() => props.addIsLike()}
-                    style={{color: props.mappedData.isLike === true ? "red" : "none"}}
+                    style={{color: props.mappedData.isLike === true ? "red" : "grey"}}
                     />
                 </IconButton>
                 </div>
