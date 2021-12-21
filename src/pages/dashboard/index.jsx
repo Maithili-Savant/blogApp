@@ -97,13 +97,10 @@ class Dashboard extends Component{
                                 return(
                                     <div 
                                     onClick = {() => {
-                                        this.props.history.push('/post')
-                                            
-                                    //         {
-                                    //     pathname:"/post",
-                                    //     state: { page: element },
-                                    // });
-                                }}
+                                        this.props.history.push({
+                                        pathname:"/post",
+                                        state: { page: element },
+                                    });}}
                                     >
                                         <Card 
                                         mappedData={element}

@@ -18,12 +18,10 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Router>
         <Switch>
-          <Route path={"/"} component={Dashboard}></Route>
           <Route path={"/post"} component={Post}></Route>
+          <Route path={"/"} component={Dashboard}></Route>
         </Switch>
-        </Router>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
