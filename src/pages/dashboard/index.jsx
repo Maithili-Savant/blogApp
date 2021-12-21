@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import "./dashboard.css";
 import Card from "../../Components/Card";
 import { Button, Grid } from "@material-ui/core";
 import{ getPostDetails, setPostDetails, addIsLike } from "../../Store/Actions/actions";
 import UserForm from "../../Components/Form";
+import LoginForm from "../../Components/Login";
+import Post from "../Post";
 
 class Dashboard extends Component{
     constructor(props){
@@ -13,12 +16,14 @@ class Dashboard extends Component{
         this.state = {
             postDetails: this.props.postDetails,
             showPopup: false,
+            loginPopup: false,
+            loggedUserId: 0,
+            viewPostId:0,
         }
     }
 
     componentDidMount(){
         this.props.getPostDetails(()=>{ this.setState({postDetails: this.props.postDetails})})
-        // console.log(this.props.postDetails);
     }
 
     addIsLike = (element) => {
@@ -32,7 +37,7 @@ class Dashboard extends Component{
         else{
             current[element.id-1].isLike = false
         }
-                                                                                                                        
+                                                                                                                         
         this.props.addIsLike(current,
         ()=>{this.setState({
             postDetails: current,
@@ -42,21 +47,40 @@ class Dashboard extends Component{
 
     togglePopup = () => {
         this.setState({ showPopup: !this.state.showPopup });
-      };
+    };
+    
+    toggleLoginPopup = () => {
+        this.setState({ loginPopup: !this.state.loginPopup });
+    };
+
+    // openPost = (element) => {
+    //     props.history.push({
+    //         pathname:"/post",
+    //         state: {page: element},
+    //     });
+    // }
 
     render(){
-        const { showPopup } = this.state;
+        const { showPopup, loginPopup } = this.state;
         return(
             this.state.postDetails.length === 0 ? <div>Loading...</div> :
             <>
                 {showPopup && (
                     <UserForm
-                    isPopupActive={showPopup}
-                    closePopup={this.togglePopup}
+                        isPopupActive={showPopup}
+                        closePopup={this.togglePopup}
                     />
                 )}
+                {loginPopup && (
+                    <LoginForm
+                    isPopupActive={loginPopup}
+                    closePopup={this.toggleLoginPopup}/>
+                )}
                 <div className="container"> 
-                    <div className="header">Dashboard</div>
+                    <div className="header">
+                        <div>Dashboard</div>
+                        <div className="login-btn"><Button className="button" variant="contained" onClick={this.toggleLoginPopup}>Login</Button></div>
+                    </div>
 
                     <div className="toolbox">
                         <Button className="button" variant="contained" onClick={this.togglePopup}>New Post</Button>
@@ -71,10 +95,21 @@ class Dashboard extends Component{
                         > 
                             {this.state.postDetails.reverse().map((element, index)=>{
                                 return(
-                                    <Card 
+                                    <div 
+                                    onClick = {() => {
+                                        this.props.history.push('/post')
+                                            
+                                    //         {
+                                    //     pathname:"/post",
+                                    //     state: { page: element },
+                                    // });
+                                }}
+                                    >
+                                        <Card 
                                         mappedData={element}
-                                        addIsLike = {() => {this.addIsLike(element)}}>
-                                    </Card>
+                                        addIsLike = {() => {this.addIsLike(element)}}
+                                        >
+                                    </Card></div>
                                 )
                             })}                                                        
                         </Grid>

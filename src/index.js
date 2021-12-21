@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.css';
 // import App from './App';
 import reportWebVitals from "./reportWebVitals";
@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import configureStore from "./Store/store/store";
 import Dashboard from "./pages/dashboard";
+import Post from "./pages/Post";
 
 const middleware = applyMiddleware(thunk);
 const store = configureStore(middleware);
@@ -17,9 +18,12 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Routes>
-          <Route path={"/"} element={<Dashboard/>}></Route>
-        </Routes>
+        <Router>
+        <Switch>
+          <Route path={"/"} component={Dashboard}></Route>
+          <Route path={"/post"} component={Post}></Route>
+        </Switch>
+        </Router>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
