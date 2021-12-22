@@ -5,9 +5,13 @@
     border-radius: 0.5rem;
     box-shadow: 0.05rem 0.1rem 0.3rem 0.03rem rgba(0, 0, 0, 0.45);
     overflow: hidden;
-
     justify-content: flex-start;
     flex-direction: column;
+}
+
+.card-container:hover{
+    cursor: pointer;
+    box-shadow: 0.05rem 0.5rem 0.5rem 0.05rem rgba(0, 0, 0, 0.45);
 }
 
 .post-title{

@@ -2,12 +2,14 @@ import React, {Component} from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import "./dashboard.css";
 import Card from "../../Components/Card";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, IconButton } from "@material-ui/core";
+import {LoginIcon, AccountBoxIcon} from '@mui/icons-material/Login';
+import "./dashboard.css";
 import{ getPostDetails, setPostDetails, addIsLike } from "../../Store/Actions/actions";
 import UserForm from "../../Components/Form";
 import LoginForm from "../../Components/Login";
+import FilterToolbox from "../../Components/FilterToolbox";
 import Post from "../Post";
 
 class Dashboard extends Component{
@@ -18,16 +20,17 @@ class Dashboard extends Component{
             showPopup: false,
             loginPopup: false,
             loggedUserId: 0,
-            viewPostId:0,
+            sortFilter:"",
         }
     }
 
     componentDidMount(){
+        //getting post's from the props
         this.props.getPostDetails(()=>{ this.setState({postDetails: this.props.postDetails})})
     }
 
     addIsLike = (element) => {
-        console.log(element.id);
+        // console.log(element.id);
         
         let current = this.state.postDetails;
         
@@ -53,12 +56,64 @@ class Dashboard extends Component{
         this.setState({ loginPopup: !this.state.loginPopup });
     };
 
-    // openPost = (element) => {
-    //     props.history.push({
-    //         pathname:"/post",
-    //         state: {page: element},
-    //     });
-    // }
+    setLoggedUserId = () =>{
+        //getting the userid of the logged in user
+        let id = parseInt(localStorage.getItem('userId'));
+        this.setState({loggedUserId: id});
+    }
+
+    logoutUser = () => {
+        //removing userid from local storage
+        localStorage.removeItem('userId');
+
+        //updating the loggedUserId in state
+        this.setState({loggedUserId: 0});
+    }
+
+    filterPosts = (data) => {
+        //filtering data as per selected option in sort by dropdown
+        let filteredData = [];
+        switch (data){
+            //All Posts
+            case 'All Posts':
+                filteredData = this.props.postDetails;
+                break;
+
+            //My Posts
+            case 'My Posts':
+                const userId = localStorage.getItem('userId');
+                filteredData = this.props.postDetails.filter(function(item){
+                    return(
+                        item.userId == userId
+                    )
+                });
+                break;
+
+            //Liked Posts
+            case 'Liked Posts':
+                filteredData = this.props.postDetails.filter(function(item){
+                    return(
+                        item.isLike == true
+                    )
+                });
+                break;
+
+            //Unliked Posts
+            case 'Unliked Posts':
+                filteredData = this.props.postDetails.filter(function(item){
+                    return(
+                        !item.isLike
+                    )
+                });
+                break;
+
+            default:
+                break;
+        }
+
+        //setting state with the filtered data
+        this.setState({postDetails: filteredData});
+    }
 
     render(){
         const { showPopup, loginPopup } = this.state;
@@ -74,15 +129,23 @@ class Dashboard extends Component{
                 {loginPopup && (
                     <LoginForm
                     isPopupActive={loginPopup}
-                    closePopup={this.toggleLoginPopup}/>
+                    closePopup={this.toggleLoginPopup}
+                    setLoggedUserId={this.setLoggedUserId}/>
                 )}
                 <div className="container"> 
                     <div className="header">
                         <div>Dashboard</div>
-                        <div className="login-btn"><Button className="button" variant="contained" onClick={this.toggleLoginPopup}>Login</Button></div>
+                        <div className="login-btn">
+                            {this.state.loggedUserId === 0
+                            ? <Button className="button" variant="contained" onClick={this.toggleLoginPopup}>Login</Button>
+                            : <Button className="button" variant="contained" onClick={this.logoutUser}>Logout</Button>}
+                        </div>
                     </div>
 
                     <div className="toolbox">
+                        <FilterToolbox
+                            filterPosts = {this.filterPosts}
+                        />
                         <Button className="button" variant="contained" onClick={this.togglePopup}>New Post</Button>
                     </div>
 
@@ -95,16 +158,15 @@ class Dashboard extends Component{
                         > 
                             {this.state.postDetails.reverse().map((element, index)=>{
                                 return(
-                                    <div 
-                                    onClick = {() => {
-                                        this.props.history.push({
-                                        pathname:"/post",
-                                        state: { page: element },
-                                    });}}
-                                    >
+                                    <div>
                                         <Card 
                                         mappedData={element}
                                         addIsLike = {() => {this.addIsLike(element)}}
+                                        openPost = {() => {
+                                            this.props.history.push({
+                                            pathname:"/post",
+                                            state: { page: element },
+                                        });}}
                                         >
                                     </Card></div>
                                 )

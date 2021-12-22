@@ -6,6 +6,10 @@
     overflow: hidden;
 }
 
+.account-icon{
+    color:white;
+}
+
 .header{
     display:flex;
     height: 10vh !important;
@@ -27,7 +31,7 @@
     width: 80% !important;
     height: 10vh !important;
     align-self: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 
     padding: 10px 10px 0 0;
@@ -61,23 +65,28 @@
     .toolbox{
         justify-content: center;
         align-items: center;
-
         height: 8vh !important;
     }
 
     .header{
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-
         font-size: 32px;
         padding-left: 0;
     }
+
     .login-btn{
-        display: none;
+        display: flex;
+        width: 15vw;
+        height: fit-content;
     }
 
     .toolbox{
+        display: flex;
         width: 100vw !important;
-        padding: 10px 0 0 0;
+        height: max-content !important;
+        justify-content: center;
+        flex-direction: column-reverse;
+        gap:1rem;
     }
 }

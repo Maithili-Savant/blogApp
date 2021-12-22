@@ -6,8 +6,10 @@ import { Favorite } from "@material-ui/icons";
 function Card(props){
     return(
         <div className="card-container">
-            <div className="post-title">{props.mappedData.title}</div>
-            <div className="post-content">{props.mappedData.body}</div>
+            <div className="post-container" onClick={props.openPost}>
+                <div className="post-title">{props.mappedData.title}</div>
+                <div className="post-content">{props.mappedData.body}</div>
+            </div>
             <div className="card-toolbox">
                 <div>
                 <IconButton>

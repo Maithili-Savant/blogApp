@@ -14,7 +14,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { getPostDetails, setPostDetails} from "../../Store/Actions/actions";
 import "./login.css";
 
-
+//Transition effect when dialog opens
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="bottom" ref={ref} {...props} />;
 });
@@ -23,25 +23,75 @@ class LoginForm extends Component {
     constructor(props){
         super(props);
         this.state = {
-            userId:"",
+            postDetails: this.props.postDetails,
+            userId:0,
+            errors:{
+                userId: "",
+            },
         }
     }
 
     login = () => {
-        let enteredId = this.state.userId;
+        let validationPass = this.handleValidation();
+        let errors = parseInt(this.state.errors);
+        if(validationPass){
+            let enteredId = this.state.userId;
 
+            // check if the entered id exists
+            let userIdExists = this.props.postDetails.filter(function(item){
+                return(
+                   item.userId == enteredId ? true : false
+                );
+            });
+            // console.log(userIdExists.length);
+    
+            if(userIdExists.length == 0){
+                // Error message for invalid user id
+                errors.userId = "This User ID does not exist.";
+                this.setState({ errors: errors });  
+            }else{
+                // save the logged in user id
+                localStorage.setItem('userId', enteredId);
+
+                //clear data from input filed and close popup
+                this.clearFormField(this.props.closePopup);
+            }
+        }   
     }
 
-    clearFormField = () => {
+    clearFormField = (callback) => {
+        //clear entered user id after login or cancle button is clicked
         this.setState({
           userId: "",
         });
+        this.props.setLoggedUserId();
+
+        callback();
     };
 
     onChangeHandler = (e, type) => {
         //Dynamic state setting
-        this.setState({ [type]: e.target.value });
+        if (this.state.errors[type]) {
+            let errors = this.state.errors;
+            errors[type] = "";
+            this.setState({ errors: errors });
+          }
+          this.setState({ [type]: e.target.value });
     };
+
+    handleValidation = () => {
+        let formIsValid = true;
+        let errors = this.state.errors;
+
+        //for blank & incorrect input
+        if(!this.state.userId || !this.state.userId.length){
+            formIsValid = false;
+            errors.userId = "Please Enter a valid User ID.";
+            this.setState({ errors: errors });
+        }
+
+        return formIsValid;
+    }
     
 
     render() {
@@ -75,6 +125,11 @@ class LoginForm extends Component {
                                                 this.onChangeHandler(e, "userId");
                                             }}
                                         ></TextField>
+                                        {this.state.errors.userId && (
+                                            <div className="form-input-error">
+                                                {this.state.errors.userId}
+                                            </div>
+                                        )}
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -91,7 +146,7 @@ class LoginForm extends Component {
                     <Button
                         className="form-button"
                         variant="outlined"
-                        onClick={this.props.closePopup}
+                        onClick={() => this.clearFormField(this.props.closePopup)}
                     >
                         Cancel
                     </Button>
