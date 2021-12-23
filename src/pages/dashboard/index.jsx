@@ -2,12 +2,12 @@ import React, {Component} from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import Card from "../../Components/Card";
 import { Button, Grid, IconButton } from "@material-ui/core";
-import {LoginIcon, AccountBoxIcon} from '@mui/icons-material/Login';
+import { MenuItem, Divider, Select, FormControl, InputLabel } from '@mui/material';
 import "./dashboard.css";
 import{ getPostDetails, setPostDetails, addIsLike } from "../../Store/Actions/actions";
 import UserForm from "../../Components/Form";
+import Card from "../../Components/Card";
 import LoginForm from "../../Components/Login";
 import FilterToolbox from "../../Components/FilterToolbox";
 import Post from "../Post";
@@ -19,6 +19,7 @@ class Dashboard extends Component{
             postDetails: this.props.postDetails,
             showPopup: false,
             loginPopup: false,
+            menuPopup: false,
             loggedUserId: 0,
             sortFilter:"",
         }
@@ -62,6 +63,10 @@ class Dashboard extends Component{
     toggleLoginPopup = () => {
         this.setState({ loginPopup: !this.state.loginPopup });
     };
+
+    toggleMenuPopup = () => {
+        this.setState({ menuPopup: !this.state.menuPopup });
+    }
 
     setLoggedUserId = () =>{
         //getting the userid of the logged in user
@@ -125,7 +130,7 @@ class Dashboard extends Component{
     }
 
     render(){
-        const { showPopup, loginPopup } = this.state;
+        const { showPopup, loginPopup, menuPopup } = this.state;
         return(
             this.state.postDetails.length === 0 ? <div>Loading...</div> :
             <>
@@ -137,17 +142,45 @@ class Dashboard extends Component{
                 )}
                 {loginPopup && (
                     <LoginForm
-                    isPopupActive={loginPopup}
-                    closePopup={this.toggleLoginPopup}
-                    setLoggedUserId={this.setLoggedUserId}/>
+                        isPopupActive={loginPopup}
+                        closePopup={this.toggleLoginPopup}
+                        setLoggedUserId={this.setLoggedUserId}/>
                 )}
                 <div className="container"> 
                     <div className="header">
-                        <div>Dashboard</div>
+                        <div className="dashboard">Dashboard</div>
                         <div className="login-btn">
                             {this.state.loggedUserId === 0
                             ? <Button className="button" variant="contained" onClick={this.toggleLoginPopup}>Login</Button>
                             : <Button className="button" variant="contained" onClick={this.logoutUser}>Logout</Button>}
+
+                            {/* Menu Icon for edit, delete and graph functionality */}
+                            <FormControl sx={{ m: 1, minWidth: 100, minHeight: 40 }} className="menuform">
+                                <InputLabel id="filter-simple-select-label">Menu</InputLabel>
+                                <Select 
+                                    labelId="filter-simple-select-label"
+                                    label="Menu"
+                                    onChange={this.handleMenuToggle}
+                                    style={{backgroundColor:"white"}}
+                                >
+                                    <MenuItem
+                                        value="my posts"
+                                        onClick = {() => {
+                                            this.props.history.push({
+                                                pathname:"/mypost",
+                                            });}}
+                                    >My Posts</MenuItem>
+                                    <Divider />
+                                    <MenuItem
+                                    value="graph"
+                                        onClick = {() => {
+                                            this.props.history.push({
+                                            pathname:"/graph",
+                                            state: { data: this.props.postDetails },
+                                        });}}
+                                    >Graph</MenuItem>
+                                </Select>
+                            </FormControl>
                         </div>
                     </div>
 

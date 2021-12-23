@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Select from '@mui/material/Select';
-import {MenuItem, InputLabel} from '@mui/material';
+import {MenuItem, InputLabel, FormControl} from '@mui/material';
 import "./filter.css";
 import { options } from "../../Store/Data/data.js";
 
@@ -14,7 +14,8 @@ function Toolbox(props){
         <>
             <div className="toolbar">
                 <div>
-                    <InputLabel id="filter-simple-select-label">Sort By</InputLabel>
+                <FormControl sx={{ m: 1, minWidth: 100 }}>
+                    <InputLabel id="filter-simple-select-label" className="sorttitle">Sort By</InputLabel>
                     <Select 
                         labelId="filter-simple-select-label"
                         label="Sort By"
@@ -24,6 +25,7 @@ function Toolbox(props){
                             return(<MenuItem value={item}>{item}</MenuItem>)
                         })}
                     </Select>
+                </FormControl>
                 </div>
             </div>
         </>

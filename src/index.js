@@ -10,6 +10,9 @@ import thunk from "redux-thunk";
 import configureStore from "./Store/store/store";
 import Dashboard from "./pages/dashboard";
 import Post from "./pages/Post";
+import MyPost from "./pages/UserPosts";
+import Graph from "./pages/Graph";
+
 
 const middleware = applyMiddleware(thunk);
 const store = configureStore(middleware);
@@ -19,6 +22,8 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
         <Switch>
+          <Route path={"/graph"} component={Graph}></Route>
+          <Route path={"/mypost"} component={MyPost}></Route>
           <Route path={"/post"} component={Post}></Route>
           <Route path={"/"} component={Dashboard}></Route>
         </Switch>

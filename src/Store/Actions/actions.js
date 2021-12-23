@@ -25,3 +25,11 @@ export const addIsLike = (data, callback) => async (dispatch) => {
     dispatch({ type: STORE_BLOG_POSTS, payload: data });
     callback();
 }
+
+export const deletePostDetails =
+  (data, index, callback) => async (dispatch) => {
+    let current = data;
+    current.splice(index, 1);
+    dispatch({ type: STORE_BLOG_POSTS, payload: current });
+    callback();
+  };

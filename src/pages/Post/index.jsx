@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { IconButton } from "@material-ui/core";
-import ArrowCircleLeftRoundedIcon from '@mui/icons-material/ArrowCircleLeftRounded';
 import "./post.css";
 
 

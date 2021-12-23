@@ -23,23 +23,34 @@ class UserForm extends Component {
     constructor(props){
         super(props);
         this.state = {
+            userId: 0,
+            id: 0,
             title:"",
             body:"",
+            isEdit: false,
+            editKey: 0,
+            
         }
     }
 
     saveFormData = () => {
+        //save the post data
         let postData = {
-            userId: 1,
-            id: this.props.postDetails.length+1,
+            userId: this.state.userId,
+            id: this.state.id,
             title: this.state.title,
             body: this.state.body,
-            
         };
 
         let reducerData = this.props.postDetails;
-        reducerData.push(postData);
-        this.props.setPostDetails(reducerData, this.props.closePopup);
+        if (this.state.isEdit) {
+            reducerData[this.state.editKey] = postData;
+            this.props.setPostDetails(reducerData, this.props.closePopup);
+        }
+        else {
+            reducerData.push(postData);
+            this.props.setPostDetails(reducerData, this.props.closePopup);
+        }
         this.clearFormField();
     };
 
@@ -54,6 +65,30 @@ class UserForm extends Component {
         //Dynamic state setting
         this.setState({ [type]: e.target.value });
     };
+
+    componentDidMount() {
+        //Check if edit mode is enabled
+        if (this.props.editData) {
+          let data = this.props.editData;
+          let editKey = this.props.editKey;
+          
+          this.setState({
+            isEdit: true,
+            editKey: editKey,
+            userId: data.userId,
+            id: data.id,
+            title: data.title,
+            body: data.body,
+          });
+        }
+        else{
+            this.setState({
+                userId:parseInt(localStorage.getItem('userId')),
+                id:this.props.postDetails.length+1,
+            })
+        }
+      }
+    
     
 
     render() {
@@ -65,7 +100,7 @@ class UserForm extends Component {
                     TransitionComponent={Transition}
                     fullWidth
                     maxWidth="md">
-                    <DialogTitle className="dialog-title">New Post</DialogTitle>
+                    <DialogTitle className="dialog-title">{this.state.isEdit ? "EDIT POST" : "ADD NEW POST"}</DialogTitle>
                     <DialogContent>
                         <Grid container direction="column" className={"dialog-container"}>
                             <Grid item lg={6} xl={6} sm={6} xs={12}>
