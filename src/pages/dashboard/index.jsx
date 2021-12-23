@@ -27,6 +27,13 @@ class Dashboard extends Component{
     componentDidMount(){
         //getting post's from the props
         this.props.getPostDetails(()=>{ this.setState({postDetails: this.props.postDetails})})
+        
+        //getting the userid of the logged in user
+         let id = parseInt(localStorage.getItem('userId'));
+         this.setState({loggedUserId: id});
+
+        //displaying sorted results if sortFilter exists - for when routing back from viewing full post
+
     }
 
     addIsLike = (element) => {
@@ -72,8 +79,10 @@ class Dashboard extends Component{
 
     filterPosts = (data) => {
         //filtering data as per selected option in sort by dropdown
+        this.setState({sortFilter: data});
         let filteredData = [];
         switch (data){
+
             //All Posts
             case 'All Posts':
                 filteredData = this.props.postDetails;
