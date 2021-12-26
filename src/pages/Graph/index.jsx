@@ -1,5 +1,9 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
+import { connect } from "react-redux";
+
+import{ addDate } from "../../Store/Actions/actions";
+
 
 
 class Graph extends React.Component {
@@ -8,8 +12,8 @@ class Graph extends React.Component {
         this.state = {
             postDetails: this.props.postDetails,
             date: [],
-            postId : [],
-            userId : [],
+            listDate: [],
+            listCount:[],
 
         }
     }
@@ -19,46 +23,81 @@ class Graph extends React.Component {
         this.setState({postDetails: this.props.location.state.data});
 
         //Calling randomDate function
-        this.randomDate(new Date(2018, 0, 1), new Date());
+        this.randomDate(new Date(2015, 0, 1), new Date());
 
-        //seperating out post Id's to be displayed on x-axis
-        this.getPostData();
+        //create final array where dates are sorted and duplicates are removed & array where no of posts uploaded per year are stores.
+        this.setPlotData();
     }
 
-    randomDate = (start, end) => {
-        //generating random dates as per the total number of the posts  
+    //generating date of upload for posts
+    randomDate = (start, end) => { 
         let dataArr = [];
+        let current = this.state.postDetails;
+
+        //generate date and store in postDetails.
         for(let i=0; i<this.props.location.state.data.length; i++){
             dataArr[i] = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-            dataArr[i] = dataArr[i].toISOString().substr(0,10);
+            // dataArr[i] = dataArr[i].getFullYear();
+            current[i].date = dataArr[i];
         }
-        this.setState({date : this.dataArr});
+        //save the date in postDetails and setState with update postDetails
+        this.props.addDate(current,
+          ()=>{this.setState({
+              postDetails: current,
+          })}
+          )
     }
 
-    getPostData = () =>{
-        let modifiedPostId = this.props.location.state.data.map(function(item){
-            return item.id;
-        });
+    setPlotData = () => {
+      let dateArr = this.state.date;
 
-        let modifiedUserId = this.props.location.state.data.map(function(item){
-            return item.userId;
+      //Array storing total no of posts as per the year of upload
+      let list = [];
+      let postData = this.state.postDetails;
+      let listCount = [];
+      let listDate = [];
+
+      for(let i=0; i<postData.length;i++){
+        let year = postData[i].date.getFullYear(); 
+
+        if(!list[year]){
+          list[year] = [];
+        }
+
+        list[year].push({
+          userId: postData[i].userId,
         });
-        this.setState({postId : this.modifiedPostId, userId: this.modifiedUserId});
+      }
+
+      //push year into listDate and push no of posts in listCount
+      for(let i=0;i<list.length;i++){
+        if(list[i]){
+          listDate.push(i);
+          listCount.push(list[i].length);
+        }
+      }
+
+      //update the state with new data
+      this.setState({
+        listDate: listDate,
+        listCount: listCount,
+      })
 
     }
 
   render() {
+    
     return (
       <Plot
         data={[
           {
-            x: this.state.date,//Timeline
-            y: this.state.postDetails,//No of posts
+            x: this.state.listDate,//Timeline, display year
+            y: this.state.listCount,//Total No of posts, display total post's in that years
             type: 'scatter',
             mode: 'lines+markers',
             marker: {color: 'black'},
           },
-          {type: 'bar', x: this.state.date, y: this.state.postDetails},
+          {type: 'bar', x: this.state.listDate, y: this.state.listCount},//will display bars as per the data given in x and y axis
         ]}
         layout={ {width: 1200, height: 600, title: 'Plot Displaying the Graph for Posts Uploaded'} }
       />
@@ -66,5 +105,10 @@ class Graph extends React.Component {
   }
 }
 
-  
-export default Graph;
+const mapStateToProps = (state) => {
+  return {
+    postDetails: state.postDetails.postDetails,
+  };
+};
+
+export default connect(mapStateToProps, { addDate })(Graph);

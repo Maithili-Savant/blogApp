@@ -26,6 +26,12 @@ export const addIsLike = (data, callback) => async (dispatch) => {
     callback();
 }
 
+export const addDate = (data, callback) => async (dispatch) => {
+  dispatch({ type: STORE_BLOG_POSTS, payload: data });
+  callback();
+}
+
+
 export const deletePostDetails =
   (data, index, callback) => async (dispatch) => {
     let current = data;
