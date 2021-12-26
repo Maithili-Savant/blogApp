@@ -30,10 +30,9 @@ class Dashboard extends Component{
         this.props.getPostDetails(()=>{ this.setState({postDetails: this.props.postDetails})})
         
         //getting the userid of the logged in user
-         let id = parseInt(localStorage.getItem('userId'));
-         this.setState({loggedUserId: id});
+        let id = parseInt(localStorage.getItem('userId'));
+        this.setState({loggedUserId: id});
 
-        //displaying sorted results if sortFilter exists - for when routing back from viewing full post
 
     }
 
@@ -176,7 +175,9 @@ class Dashboard extends Component{
                                         onClick = {() => {
                                             this.props.history.push({
                                             pathname:"/graph",
-                                            state: { data: this.props.postDetails },
+                                            state: { 
+                                                data: this.props.postDetails
+                                             },
                                         });}}
                                     >Graph</MenuItem>
                                 </Select>
