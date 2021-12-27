@@ -1,17 +1,17 @@
-import React, {Component} from "react";
+import React, {Component, Suspense} from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Grid, IconButton } from "@material-ui/core";
 import { Menu, MenuItem, Divider, Select, FormControl, InputLabel } from '@mui/material';
-import { DropdownMenu } from 'react-bootstrap-dropdown-menu';
 import "./dashboard.css";
+import buttonStyle from "../../App.css";
 import{ getPostDetails, setPostDetails, addIsLike } from "../../Store/Actions/actions";
 import UserForm from "../../Components/Form";
-import Card from "../../Components/Card";
 import LoginForm from "../../Components/Login";
 import FilterToolbox from "../../Components/FilterToolbox";
-import Post from "../Post";
+const Card = React.lazy(()=> import("../../Components/Card"));
+
 
 class Dashboard extends Component{
     constructor(props){
@@ -211,7 +211,7 @@ class Dashboard extends Component{
                         > 
                             {this.state.postDetails.reverse().map((element, index)=>{
                                 return(
-                                    <div>
+                                    <Suspense fallback={<div>Loading Posts...</div>}><div>
                                         <Card 
                                         mappedData={element}
                                         addIsLike = {() => {this.addIsLike(element)}}
@@ -221,7 +221,7 @@ class Dashboard extends Component{
                                             state: { page: element },
                                         });}}
                                         >
-                                    </Card></div>
+                                    </Card></div></Suspense>
                                 )
                             })}                                                        
                         </Grid>

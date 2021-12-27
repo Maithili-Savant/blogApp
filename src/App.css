@@ -7,6 +7,18 @@
   pointer-events: none;
 }
 
+.button{
+  background-color: #282c34;
+  color: blanchedalmond;
+}
+
+.button:hover{
+  background-color: #282c34;
+  color: blanchedalmond;
+  cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 0.5rem 0.05rem rgba(0, 0, 0, 0.45);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
