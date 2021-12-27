@@ -87,6 +87,14 @@ class UserPosts extends Component{
         const { showPopup } = this.state;
         return(
             <>
+            {/* back button */}
+            <div className="post-toolbox">
+                <IconButton><ArrowBackIcon onClick = {() => {
+                    this.props.history.push('/')}}></ArrowBackIcon>
+                </IconButton>
+            </div>
+            {!localStorage.getItem('userId') ? <div className="loader">Please Login in to check your uploaded posts.</div> :
+
             <div>
                 {showPopup && (
                     <UserForm
@@ -96,10 +104,6 @@ class UserPosts extends Component{
                         editKey={this.state.editKey}
                     />
                 )}
-                <div className="post-toolbox">
-                    <IconButton><ArrowBackIcon onClick = {() => {
-                        this.props.history.push('/')}}></ArrowBackIcon></IconButton>
-                </div>
 
                 <ThemeProvider>
                     <Typography component="div">
@@ -134,7 +138,7 @@ class UserPosts extends Component{
                 </ThemeProvider>
 
 
-            </div>
+            </div>}
             </>
         )
     }

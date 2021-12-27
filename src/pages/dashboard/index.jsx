@@ -96,6 +96,7 @@ class Dashboard extends Component{
 
             //My Posts
             case 'My Posts':
+
                 const userId = localStorage.getItem('userId');
                 filteredData = this.props.postDetails.filter(function(item){
                     return(
@@ -151,11 +152,8 @@ class Dashboard extends Component{
                     <div className="header">
                         <div className="dashboard">Dashboard</div>
                         <div className="login-btn">
-                            {/* {this.state.loggedUserId === 0
-                            ? <Button className="button" variant="contained" onClick={this.toggleLoginPopup}>Login</Button>
-                            : <Button className="button" variant="contained" onClick={this.logoutUser}>Logout</Button>} */}
 
-                            {/* Menu Icon for edit, delete and graph functionality */}
+                            {/* Menu for login, edit, delete and graph functionality */}
                             <Button className="button" variant="contained" onClick={this.toggleMenuPopup}>Menu</Button>
                             {popupMenu && <Menu
                                 id="menu-popup"
@@ -192,11 +190,10 @@ class Dashboard extends Component{
                                     >Graph</MenuItem>
 
                             </Menu>}
-
-                            
                         </div>
                     </div>
 
+                    {/* Sort by dropdown filter and button for uploading new post*/}
                     <div className="toolbox">
                         <FilterToolbox
                             filterPosts = {this.filterPosts}
@@ -204,6 +201,7 @@ class Dashboard extends Component{
                         <Button className="button" variant="contained" onClick={this.togglePopup}>New Post</Button>
                     </div>
 
+                    {/* Grid displaying all the posts */}
                     <div className="card-block">
                         <Grid
                             className="card-grid-block"
