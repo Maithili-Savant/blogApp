@@ -1,7 +1,8 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 import { connect } from "react-redux";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { IconButton } from "@material-ui/core";
 import{ addDate } from "../../Store/Actions/actions";
 
 
@@ -88,19 +89,27 @@ class Graph extends React.Component {
   render() {
     
     return (
-      <Plot
-        data={[
-          {
-            x: this.state.listDate,//Timeline, display year
-            y: this.state.listCount,//Total No of posts, display total post's in that years
-            type: 'scatter',
-            mode: 'lines+markers',
-            marker: {color: 'black'},
-          },
-          {type: 'bar', x: this.state.listDate, y: this.state.listCount},//will display bars as per the data given in x and y axis
-        ]}
-        layout={ {width: 1200, height: 600, title: 'Plot Displaying the Graph for Posts Uploaded'} }
-      />
+      <>
+        <div className="post-toolbox">
+          <IconButton><ArrowBackIcon onClick = {() => {
+              this.props.history.push('/')}}></ArrowBackIcon></IconButton>
+        </div>
+        <Plot
+          className='plotgraph'
+          data={[
+            {
+              x: this.state.listDate,//Timeline, display year
+              y: this.state.listCount,//Total No of posts, display total post's in that years
+              type: 'scatter',
+              mode: 'lines+markers',
+              marker: {color: 'black'},
+            },
+            {type: 'bar', x: this.state.listDate, y: this.state.listCount},//will display bars as per the data given in x and y axis
+          ]}
+          layout={ {width: 1200, height: 600, title: 'Plot Displaying the Graph for Posts Uploaded'} }
+        />
+      </>
+
     );
   }
 }

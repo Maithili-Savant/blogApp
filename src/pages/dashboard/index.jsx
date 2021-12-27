@@ -3,7 +3,8 @@ import clsx from "clsx";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Grid, IconButton } from "@material-ui/core";
-import { MenuItem, Divider, Select, FormControl, InputLabel } from '@mui/material';
+import { Menu, MenuItem, Divider, Select, FormControl, InputLabel } from '@mui/material';
+import { DropdownMenu } from 'react-bootstrap-dropdown-menu';
 import "./dashboard.css";
 import{ getPostDetails, setPostDetails, addIsLike } from "../../Store/Actions/actions";
 import UserForm from "../../Components/Form";
@@ -19,21 +20,22 @@ class Dashboard extends Component{
             postDetails: this.props.postDetails,
             showPopup: false,
             loginPopup: false,
-            menuPopup: false,
             loggedUserId: 0,
             sortFilter:"",
+            popupMenu:false,
         }
     }
 
     componentDidMount(){
         //getting post's from the props
-        this.props.getPostDetails(()=>{ this.setState({postDetails: this.props.postDetails})})
+        this.props.getPostDetails(()=>{ this.setState({
+            postDetails: this.props.postDetails,
+            loggedUserId: 0,
+        })})
         
         //getting the userid of the logged in user
         let id = parseInt(localStorage.getItem('userId'));
         this.setState({loggedUserId: id});
-
-
     }
 
     addIsLike = (element) => {
@@ -64,7 +66,7 @@ class Dashboard extends Component{
     };
 
     toggleMenuPopup = () => {
-        this.setState({ menuPopup: !this.state.menuPopup });
+        this.setState({ popupMenu: !this.state.popupMenu });
     }
 
     setLoggedUserId = () =>{
@@ -129,7 +131,7 @@ class Dashboard extends Component{
     }
 
     render(){
-        const { showPopup, loginPopup, menuPopup } = this.state;
+        const { showPopup, loginPopup, popupMenu } = this.state;
         return(
             this.state.postDetails.length === 0 ? <div>Loading...</div> :
             <>
@@ -149,25 +151,33 @@ class Dashboard extends Component{
                     <div className="header">
                         <div className="dashboard">Dashboard</div>
                         <div className="login-btn">
-                            {this.state.loggedUserId === 0
+                            {/* {this.state.loggedUserId === 0
                             ? <Button className="button" variant="contained" onClick={this.toggleLoginPopup}>Login</Button>
-                            : <Button className="button" variant="contained" onClick={this.logoutUser}>Logout</Button>}
+                            : <Button className="button" variant="contained" onClick={this.logoutUser}>Logout</Button>} */}
 
                             {/* Menu Icon for edit, delete and graph functionality */}
-                            <FormControl sx={{ m: 1, minWidth: 100, minHeight: 40 }} className="menuform">
-                                <InputLabel id="filter-simple-select-label">Menu</InputLabel>
-                                <Select 
-                                    labelId="filter-simple-select-label"
-                                    label="Menu"
-                                    onChange={this.handleMenuToggle}
-                                    style={{backgroundColor:"white"}}
-                                >
-                                    <MenuItem
-                                        value="my posts"
-                                        onClick = {() => {
-                                            this.props.history.push({
-                                                pathname:"/mypost",
-                                            });}}
+                            <Button className="button" variant="contained" onClick={this.toggleMenuPopup}>Menu</Button>
+                            {popupMenu && <Menu
+                                id="menu-popup"
+                                anchorOrigin={{vertical:"top", horizontal:"right"}}
+                                transformOrigin={{vertical:"top", horizontal:"right"}}
+                                open={popupMenu}
+                                onClick={this.toggleMenuPopup}
+                            >
+                                <MenuItem 
+                                    value="login"
+                                    onClick={this.state.loggedUserId === 0 ? this.toggleLoginPopup : this.logoutUser}>
+                                    {this.state.loggedUserId === 0 ? "Login" : "Logout"} 
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem
+                                    isPopupActive={popupMenu}
+                                    closePopup={this.toggleMenuPopup}
+                                    value="my posts"
+                                    onClick = {() => {
+                                        this.props.history.push({
+                                            pathname:"/mypost",
+                                        });}}
                                     >My Posts</MenuItem>
                                     <Divider />
                                     <MenuItem
@@ -180,8 +190,10 @@ class Dashboard extends Component{
                                              },
                                         });}}
                                     >Graph</MenuItem>
-                                </Select>
-                            </FormControl>
+
+                            </Menu>}
+
+                            
                         </div>
                     </div>
 
